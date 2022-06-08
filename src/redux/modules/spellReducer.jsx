@@ -18,6 +18,7 @@ const initialState = {
 
 /* Reducer */
 export default function spellReducer( state = initialState, action ) {
+  console.log(action);
   switch (action.type) {
     case ADD_SPELL :
       return { ...state, list : [ ...state.list, action.payload ] }

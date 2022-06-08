@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { addSpell, delSpell } from "../redux/modules/spellReducer";
-
 
 const SpellBook = () => {
 
@@ -10,16 +9,22 @@ const SpellBook = () => {
   console.log(spellList);
 
   const [spell, setSpell] = useState("");
+  const [input, setInput] = useState("");
   const dispatch = useDispatch("");
 
   const getSpellHandler = (event) => {
     const { value } = event.target;
-    setSpell(value);  
+    setSpell(value); 
+    setInput(value); 
   }
 
   const addSpellHandler = (event) => {
     event.preventDefault();
-    dispatch(addSpell(spell));
+    if ( event.target.value === "" ) {
+      return
+    } 
+    dispatch(addSpell({id : spellList.length +1, spell}));
+    setInput(""); 
   }
 
   const delSpellHandler = (payload) => {
@@ -36,9 +41,10 @@ const SpellBook = () => {
 
   return (
     <>
-      <form>
-        <input type = "text" onChange = {getSpellHandler} placeholder ="주문을 입력해주세요"/>
-        <button onClick = {addSpellHandler}> 👻 주문 입력 👻 </button>
+      <form onSubmit = {addSpellHandler}>
+        <label htmlFor = "expire">마법 주문 입력하기</label>
+        <input id = "expire" type = "text" value = {input} onChange = {getSpellHandler} placeholder ="주문을 입력해주세요"/>
+        <button type = "submit" > 👻 주문 입력 👻 </button>
         {Spells}
       </form>
     </>
